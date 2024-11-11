@@ -1,0 +1,17 @@
+# for parsing
+construct==2.9.44
+
+# for unpacking
+zstandard==0.15.1
+pylzma==0.5.0
+
+# multiprocessing-logging==0.3.1
+multiprocessing-logging@https://github.com/jruere/multiprocessing-logging/archive/refs/tags/v0.3.1.tar.gz
+
+# for blk minimizing
+lark-parser==0.8.5
+tox==3.24.4
+
+# validating
+typing-extensions
+cerberus

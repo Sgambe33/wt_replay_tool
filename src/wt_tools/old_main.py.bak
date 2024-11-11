@@ -1,0 +1,61 @@
+# def main():
+#    parser = argparse.ArgumentParser(description='Replay unpacker.')
+#    parser.add_argument('replay', type=argparse.FileType('rb'), help='Replay file.')
+#    parser.add_argument('-o', dest='out_dir', type=Path, default=Path.cwd(),
+#                        help='Output directory. Default is %(default)s.')
+#    parser.add_argument('--format', dest='out_format', choices=list(out_type_map), default=JSON,
+#                        help='Format for blk. Default is %(default)s.')
+#    ns = parser.parse_args()
+#    replay = ns.replay
+#    out_format = ns.out_format
+#    out_type = out_type_map[out_format]
+#    replay_path = Path(replay.name)
+#    out_dir: Path = ns.out_dir / f'{replay_path.name}.d'
+#
+#    try:
+#        out_dir.mkdir(parents=True, exist_ok=True)
+#    except OSError as e:
+#        print('Error creating output directory {}: {}'.format(out_dir, e), file=sys.stderr)
+#        return 1
+#
+#    try:
+#        parsed = WRPLCliFile.parse_stream(replay)
+#    except ct.ConstructError as e:
+#        print('Error parsing input file {}: {}'.format(replay.name, e), file=sys.stderr)
+#        return 1
+#
+#    for name in ['m_set', 'rez']:
+#        section = parsed[name]
+#        out_path = (out_dir / name).with_suffix(suffix(out_format))
+#        with create_text(out_path) as ostream:
+#            serialize_text(section, ostream, out_type)
+#
+#    out_path = out_dir / 'wrplu.bin'
+#    out_path.write_bytes(parsed.wrplu)
+#
+#    out_path = out_dir / 'info.json'
+#    info = {
+#        'version': parsed.header.version,
+#        'level': parsed.header.level,
+#        'level_settings': parsed.header.level_settings,
+#        'battle_type': parsed.header.battle_type,
+#        'environment': parsed.header.environment,
+#        'visibility': parsed.header.visibility,
+#        'difficulty': int(parsed.header.difficulty),
+#        'session_type': int(parsed.header.session_type),
+#        'session_id': parsed.header.session_id,
+#        'loc_name': parsed.header.loc_name,
+#        'battle_class': parsed.header.battle_class,
+#        'start_time': parsed.header.start_time,
+#        'time_limit' : parsed.header.time_limit,
+#        'score_limit' : parsed.header.score_limit,
+#        'battle_kill_streak' : parsed.header.battle_kill_streak,
+#        'm_set_size': parsed.header.m_set_size,
+#        'rez_offset': parsed.header.rez_offset,
+#    }
+#    with create_text(out_path) as ostream:
+#        json.dump(info, ostream, indent=2)
+#
+#    print(f'{replay.name} => {out_dir}')
+#
+#    return 0
